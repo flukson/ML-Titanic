@@ -1,5 +1,4 @@
 import pandas as pd
-
 import sklearn
 
 def execute(input_file, output_file, force_write = True):
@@ -21,7 +20,7 @@ def execute(input_file, output_file, force_write = True):
         else:
             embarked_dict_values = embarked_dict_values + 1
             embarked_dict[i] = embarked_dict_values
-    
+
     for i in embarked_dict.keys():
         df["Embarked"].replace(i, embarked_dict[i], inplace = True)
 

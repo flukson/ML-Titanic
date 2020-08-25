@@ -7,7 +7,7 @@ df.dropna(inplace = True)
 
 target = df["Survived"]
 del(df["Survived"])
-    
+
 model_unpickle = open("data/model.pkl", 'rb')
 model = pkl.load(model_unpickle)
 model.close()

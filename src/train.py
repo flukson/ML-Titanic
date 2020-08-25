@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
-import sklearn
 import pickle as pkl
+import sklearn
 
-    # Split the data for training.
+# Split the data for training.
 df = pd.read_csv("data/train_bf.csv")
 
 y = df["Survived"]
@@ -18,7 +18,6 @@ for c in df.columns:
 # Create a classifier and select scoring methods.
 from sklearn.ensemble import RandomForestClassifier
 clf = RandomForestClassifier(n_estimators=10)
-
 
 # Fit full model and predict on both train and test.
 clf.fit(df[tr_col], y)
