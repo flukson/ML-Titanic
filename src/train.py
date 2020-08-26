@@ -3,6 +3,8 @@ import pandas as pd
 import pickle as pkl
 import sklearn
 
+# TODO: change to function
+
 # Split the data for training.
 df = pd.read_csv("data/train_bf.csv")
 

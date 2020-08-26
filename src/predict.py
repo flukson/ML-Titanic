@@ -1,6 +1,8 @@
 import pandas as pd
 import pickle as pkl
 
+# TODO: change to function
+
 df = pd.read_csv("data/val_bf.csv")
 
 df.dropna(inplace = True)
