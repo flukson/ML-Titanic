@@ -7,7 +7,7 @@ def execute(input_file, output_file, force_write = True):
     Args:
         input_file (str): input file.
     """
-    df = pd.read_csv(input_file)
+    df = pd.read_csv(input_file, sep = ';')
 
     df["Sex"] = df["Sex"].replace("male", 0)
     df["Sex"] = df["Sex"].replace("female", 1)
@@ -28,4 +28,4 @@ def execute(input_file, output_file, force_write = True):
     df["IsAlone"] = 0
     df.loc[df["FamilySize"] == 1, "IsAlone"] = 1
 
-    df.to_csv(output_file)
+    df.to_csv(output_file, sep = ";", index = False)
