@@ -1,7 +1,7 @@
 #!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 
-from src import preprocess, build_features, train
+from src import preprocess, build_features, train, predict
 
 # paths:
 data_dir = "./data/"
@@ -14,6 +14,7 @@ train_df2_csv = data_dir + "train_df2.csv"
 # data for validation:
 val_csv = data_dir + "val.csv"
 val_df_csv = data_dir + "val_df.csv"
+val_df2_csv = data_dir + "val_df2.csv"
 
 model_path = data_dir + "model.pkl"
 
@@ -29,3 +30,6 @@ if __name__ == '__main__':
     train.execute(train_df2_csv, model_path)
 
     # 4. predict
+    preprocess.execute(val_csv, val_df_csv)
+    build_features.execute(val_df_csv, val_df2_csv)
+    predict.execute(val_df2_csv, model_path)
