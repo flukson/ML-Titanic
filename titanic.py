@@ -16,14 +16,34 @@ model_path = data_dir + "model.pkl"
 
 if __name__ == '__main__':
 
-    # Create a classifier and select scoring methods:
+    classifiers = []
+
     from sklearn.ensemble import RandomForestClassifier
-    clf = RandomForestClassifier(n_estimators=10)
+    classifiers.append(RandomForestClassifier(n_estimators=10))
 
-    # 1. Training:
-    build_features.execute(train_csv)
-    train.execute(train_csv, model_path, clf)
+    from sklearn.svm import LinearSVC
+    classifiers.append(LinearSVC())
 
-    # 2. Inference:
-    build_features.execute(val_csv)
-    predict.execute(val_csv, model_path)
+    from sklearn.linear_model import Perceptron
+    classifiers.append(Perceptron(max_iter=10))
+
+    from sklearn.tree import DecisionTreeClassifier
+    classifiers.append(DecisionTreeClassifier())
+
+    results = {}
+
+    for classifier in classifiers:
+
+        classifier_name = classifier.__class__.__name__
+
+        print "Classifier: " + classifier_name
+
+        # 1. Training:
+        build_features.execute(train_csv)
+        train.execute(train_csv, model_path, classifier)
+
+        # 2. Inference:
+        build_features.execute(val_csv)
+        predict.execute(val_csv, model_path)
+
+        print
