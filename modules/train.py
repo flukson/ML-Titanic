@@ -3,7 +3,7 @@ import pandas as pd
 import pickle as pkl # tool for object (de)serialization
 import sklearn
 
-from common import processed_suffix
+from common import processed_suffix, printAccuracy
 
 def execute(data_file, model_path):
 
@@ -14,12 +14,13 @@ def execute(data_file, model_path):
     """
 
     # Split the data for training:
-    df = pd.read_csv(data_file + processed_suffix, sep = ';')
+    data = pd.read_csv(data_file + processed_suffix, sep = ';')
 
-    y = df["Survived"]
+    target = data["Survived"]
+    del(data["Survived"])
 
     tr_col = []
-    for c in df.columns:
+    for c in data.columns:
         if c == "Survived":
             pass
         else:
@@ -29,20 +30,14 @@ def execute(data_file, model_path):
     from sklearn.ensemble import RandomForestClassifier
     clf = RandomForestClassifier(n_estimators=10)
 
-    # Fit model and predict on validate data:
-    clf.fit(df[tr_col], y)
-    preds = clf.predict(df[tr_col])
-    metric_name = "train_accuracy"
-    metric_result = sklearn.metrics.accuracy_score(y, preds)
+    # Fit model and predict on training data:
+    clf.fit(data[tr_col], target)
+    predictions = clf.predict(data[tr_col])
 
     # Save model to file:
     model_pickle = open(model_path, 'wb')
     pkl.dump(clf, model_pickle)
     model_pickle.close()
 
-    # Return metrics and model:
-    info = ""
-    info = info + metric_name
-    info = info + " for the model is "
-    info = info + str(metric_result)
-    print(info)
+    # Calculate and print accuracy:
+    printAccuracy(target, predictions, "training data")
