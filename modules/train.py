@@ -5,12 +5,13 @@ import sklearn
 
 from common import processed_suffix, printAccuracy
 
-def execute(data_file, model_path):
+def execute(data_file, model_path, clf):
 
     """Performs model training
     Args:
         data_file (str): path to input raw csv data file
         model_path (str): path to file with model
+        clf: classifier
     """
 
     # Split the data for training:
@@ -25,10 +26,6 @@ def execute(data_file, model_path):
             pass
         else:
             tr_col.append(c)
-
-    # Create a classifier and select scoring methods:
-    from sklearn.ensemble import RandomForestClassifier
-    clf = RandomForestClassifier(n_estimators=10)
 
     # Fit model and predict on training data:
     clf.fit(data[tr_col], target)
