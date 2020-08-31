@@ -12,6 +12,7 @@ def execute(data_file):
     data = pd.read_csv(data_file, sep = ";")
 
     # Remove not needed columns:
+    del(data["PassengerId"])
     del(data["Name"])
     del(data["Ticket"])
     del(data["Cabin"])
