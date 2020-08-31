@@ -6,7 +6,6 @@ processed_suffix = '.processed'
 
 # Functions:
 
-def printAccuracy(target, predictions, label):
+def getAccuracy(target, predictions):
 
-    accuracy = sklearn.metrics.accuracy_score(target, predictions)
-    print "Accuracy for " + label + " is " + str(accuracy) + "."
+    return sklearn.metrics.accuracy_score(target, predictions)

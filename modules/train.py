@@ -3,18 +3,19 @@ import pandas as pd
 import pickle as pkl # tool for object (de)serialization
 import sklearn
 
-from common import processed_suffix, printAccuracy
+from common import processed_suffix, getAccuracy
 
-def execute(data_file, model_path):
+def execute(data_file, clf, categorize=False):
 
     """Performs model training
     Args:
         data_file (str): path to input raw csv data file
-        model_path (str): path to file with model
+        clf: classifier
+        categorize: set to True if Age and Fare should be categorized
     """
 
     # Split the data for training:
-    data = pd.read_csv(data_file + processed_suffix, sep = ';')
+    data = pd.read_csv(data_file + processed_suffix + "_" + str(categorize), sep = ';')
 
     target = data["Survived"]
     del(data["Survived"])
@@ -26,18 +27,15 @@ def execute(data_file, model_path):
         else:
             tr_col.append(c)
 
-    # Create a classifier and select scoring methods:
-    from sklearn.ensemble import RandomForestClassifier
-    clf = RandomForestClassifier(n_estimators=10)
-
     # Fit model and predict on training data:
     clf.fit(data[tr_col], target)
     predictions = clf.predict(data[tr_col])
 
     # Save model to file:
-    model_pickle = open(model_path, 'wb')
+    model_pickle = open("./data/" + clf.__class__.__name__ + ".pkl", 'wb')
     pkl.dump(clf, model_pickle)
     model_pickle.close()
 
     # Calculate and print accuracy:
-    printAccuracy(target, predictions, "training data")
+    accuracy = getAccuracy(target, predictions)
+    return accuracy

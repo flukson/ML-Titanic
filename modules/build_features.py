@@ -21,8 +21,6 @@ def execute(data_file, categorize=False):
 
     if categorize:
 
-        print "Features Age and Fare categorized."
-
         # Convert age into categories:
         data["Age"] = data["Age"].astype(int)
         data.loc[ data["Age"] <= 19, "Age"] = 0
@@ -37,10 +35,6 @@ def execute(data_file, categorize=False):
         data.loc[(data["Fare"] > 10.5) & (data["Fare"] <= 22.225), "Fare"] = 2
         data.loc[(data["Fare"] > 22.225) & (data["Fare"] <= 39.688), "Fare"] = 3
         data.loc[(data["Fare"] > 39.688), "Fare"] = 4
-
-    else:
-
-        print "Features Age and Fare not categorized."
 
     # Embarked: C = Cherbourg, Q = Queenstown, S = Southampton
     # Replace above labels with numbers from 1 to 3:
@@ -60,4 +54,4 @@ def execute(data_file, categorize=False):
     data["IsAlone"] = 0
     data.loc[data["FamilySize"] == 1, "IsAlone"] = 1
 
-    data.to_csv(data_file + processed_suffix, sep = ";", index = False)
+    data.to_csv(data_file + processed_suffix + "_" + str(categorize), sep = ";", index = False)
