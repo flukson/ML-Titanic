@@ -14,34 +14,34 @@ val_csv = data_dir + "val.csv"
 
 if __name__ == '__main__':
 
+    from sklearn.utils.testing import all_estimators
+
+    estimators = all_estimators(type_filter='classifier')
+
     classifiers = []
-
-    from sklearn.ensemble import RandomForestClassifier
-    classifiers.append(RandomForestClassifier(n_estimators=10))
-
-    from sklearn.svm import LinearSVC
-    classifiers.append(LinearSVC())
-
-    from sklearn.linear_model import Perceptron
-    classifiers.append(Perceptron(max_iter=10))
-
-    from sklearn.tree import DecisionTreeClassifier
-    classifiers.append(DecisionTreeClassifier())
+    for name, ClassifierClass in estimators:
+        clf = ClassifierClass() # classifier is added with default constructor, this of course may be adjusted in further analysis
+        classifiers.append(clf)
 
     results = {}
 
     for classifier in classifiers:
 
-        classifier_name = classifier.__class__.__name__
+        try:
+            classifier_name = classifier.__class__.__name__
 
-        print "Classifier: " + classifier_name
+            print "Classifier: " + classifier_name
 
-        # 1. Training:
-        build_features.execute(train_csv)
-        train.execute(train_csv, classifier)
+            # 1. Training:
+            build_features.execute(train_csv)
+            train.execute(train_csv, classifier)
 
-        # 2. Inference:
-        build_features.execute(val_csv)
-        predict.execute(val_csv, classifier)
+            # 2. Inference:
+            build_features.execute(val_csv)
+            predict.execute(val_csv, classifier)
 
-        print
+            print
+
+        except:
+
+            ""
