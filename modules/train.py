@@ -5,12 +5,11 @@ import sklearn
 
 from common import processed_suffix, printAccuracy
 
-def execute(data_file, model_path, clf):
+def execute(data_file, clf):
 
     """Performs model training
     Args:
         data_file (str): path to input raw csv data file
-        model_path (str): path to file with model
         clf: classifier
     """
 
@@ -32,7 +31,7 @@ def execute(data_file, model_path, clf):
     predictions = clf.predict(data[tr_col])
 
     # Save model to file:
-    model_pickle = open(model_path, 'wb')
+    model_pickle = open("./data/" + clf.__class__.__name__ + ".pkl", 'wb')
     pkl.dump(clf, model_pickle)
     model_pickle.close()
 
