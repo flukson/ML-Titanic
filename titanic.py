@@ -1,6 +1,13 @@
 #!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 
+import sys
+import warnings
+
+if not sys.warnoptions:
+    warnings.simplefilter("ignore")
+    warnings.filterwarnings("ignore", category=DeprecationWarning)
+
 from modules import build_features, train, predict
 
 # Data pats:
@@ -20,7 +27,7 @@ if __name__ == '__main__':
 
     classifiers = []
     for name, ClassifierClass in estimators:
-        clf = ClassifierClass() # classifier is added with default constructor, this of course may be adjusted in further analysis
+        clf = ClassifierClass() # classifier is added with a default constructor, which may be not optimal
         classifiers.append(clf)
 
     results = {}
@@ -30,18 +37,48 @@ if __name__ == '__main__':
         try:
             classifier_name = classifier.__class__.__name__
 
-            print "Classifier: " + classifier_name
+            #print "Classifier: " + classifier_name
 
-            # 1. Training:
+            # Age and Fare not categorized:
+
+            # A1. Training:
             build_features.execute(train_csv)
-            train.execute(train_csv, classifier)
+            accuracy_train = train.execute(train_csv, classifier)
 
-            # 2. Inference:
+            # A2. Inference:
             build_features.execute(val_csv)
-            predict.execute(val_csv, classifier)
+            accuracy_val = predict.execute(val_csv, classifier)
 
-            print
+            # Age and Fare categorized:
+
+            # B1. Training:
+            build_features.execute(train_csv, categorize=True)
+            accuracy_train_c = train.execute(train_csv, classifier, categorize=True)
+
+            # B2. Inference:
+            build_features.execute(val_csv, categorize=True)
+            accuracy_val_c = predict.execute(val_csv, classifier, categorize=True)
+
+            results[classifier_name] = [accuracy_train, accuracy_val, accuracy_train_c, accuracy_val_c]
 
         except:
 
             ""
+
+    sorted_results = sorted(results.items(), reverse=True, key=lambda x: x[1][1])
+
+    print "============================="
+    print "Age and Fare not categorized:"
+    print "============================="
+    for sr in sorted_results:
+        print sr[0], str(sr[1][1])
+    print
+
+    sorted_results = sorted(results.items(), reverse=True, key=lambda x: x[1][3])
+
+    print "========================="
+    print "Age and Fare categorized:"
+    print "========================="
+    for sr in sorted_results:
+        print sr[0], str(sr[1][3])
+    print

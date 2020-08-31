@@ -3,18 +3,19 @@ import pandas as pd
 import pickle as pkl # tool for object (de)serialization
 import sklearn
 
-from common import processed_suffix, printAccuracy
+from common import processed_suffix, getAccuracy
 
-def execute(data_file, clf):
+def execute(data_file, clf, categorize=False):
 
     """Performs model training
     Args:
         data_file (str): path to input raw csv data file
         clf: classifier
+        categorize: set to True if Age and Fare should be categorized
     """
 
     # Split the data for training:
-    data = pd.read_csv(data_file + processed_suffix, sep = ';')
+    data = pd.read_csv(data_file + processed_suffix + "_" + str(categorize), sep = ';')
 
     target = data["Survived"]
     del(data["Survived"])
@@ -36,4 +37,5 @@ def execute(data_file, clf):
     model_pickle.close()
 
     # Calculate and print accuracy:
-    printAccuracy(target, predictions, "training data")
+    accuracy = getAccuracy(target, predictions)
+    return accuracy
