@@ -3,16 +3,18 @@ import pandas as pd
 import pickle as pkl # tool for object (de)serialization
 import sklearn
 
-def execute(input_file, model_path):
+from common import processed_suffix
+
+def execute(data_file, model_path):
 
     """Performs model training
     Args:
-        input_file (str): input file with preprocessed features
+        data_file (str): path to input raw csv data file
         model_path (str): path to file with model
     """
 
     # Split the data for training:
-    df = pd.read_csv(input_file, sep = ';')
+    df = pd.read_csv(data_file + processed_suffix, sep = ';')
 
     y = df["Survived"]
 

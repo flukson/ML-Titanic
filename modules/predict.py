@@ -1,15 +1,17 @@
 import pandas as pd
 import pickle as pkl
 
-def execute(input_file, model_path):
+from common import processed_suffix
+
+def execute(data_file, model_path):
 
     """Performs prediction
     Args:
-        input_file (str): input file for validation
+        data_file (str): path to input raw csv data file
         model_path (str): path to file with model
     """
 
-    df = pd.read_csv(input_file, sep = ';')
+    df = pd.read_csv(data_file + processed_suffix, sep = ';')
 
     df.dropna(inplace = True)
 

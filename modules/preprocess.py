@@ -1,16 +1,15 @@
 import numpy as np
 import pandas as pd
 
-def execute(input_file, output_file):
+def execute(data_file):
 
     """Performs preprocessing (removes not needed columns and records with missing data)
     Args:
-        input_file (str): input raw data file
-        output_file (str): output file after preprocessing
+        data_file (str): path to input raw csv data file
     """
 
     # Open data file:
-    data = pd.read_csv(input_file, sep = ";")
+    data = pd.read_csv(data_file, sep = ";")
 
     # Remove not needed columns:
     del(data["Name"])
@@ -20,5 +19,5 @@ def execute(input_file, output_file):
     # Remove broken records:
     data = data.dropna() # dropna removes records with missing values so it should be executed after removing columns from data
 
-    # Save data to the new file:
-    data.to_csv(output_file, sep = ";", index = False)
+    # Return preprocessed data:
+    return data
