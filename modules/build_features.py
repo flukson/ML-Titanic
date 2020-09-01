@@ -4,16 +4,17 @@ import sklearn
 import preprocess
 from common import processed_suffix
 
-def execute(data_file, categorize=False):
+def execute(data_dir, data_file, categorize=False):
 
     """Builds features
     Args:
-        data_file (str): path to input raw csv data file
+        data_dir (str): relative path to data subdirectory
+        data_file (str): name of csv data file
         categorize: set to True if Age and Fare should be categorized
     """
 
     # Read preprocessed data:
-    data = preprocess.execute(data_file)
+    data = preprocess.execute(data_dir + data_file)
 
     # Replace sex strings with binary value:
     data["Sex"] = data["Sex"].replace("male", 0)
@@ -54,4 +55,4 @@ def execute(data_file, categorize=False):
     data["IsAlone"] = 0
     data.loc[data["FamilySize"] == 1, "IsAlone"] = 1
 
-    data.to_csv(data_file + processed_suffix + "_" + str(categorize), sep = ";", index = False)
+    data.to_csv(data_dir + data_file + processed_suffix + "_" + str(categorize), sep = ";", index = False)

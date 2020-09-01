@@ -3,22 +3,23 @@ import pickle as pkl
 
 from common import processed_suffix, getAccuracy
 
-def execute(data_file, clf, categorize=False):
+def execute(data_dir, data_file, clf, categorize=False):
 
     """Performs prediction
     Args:
-        data_file (str): path to input raw csv data file
+        data_dir (str): relative path to data subdirectory
+        data_file (str): name of csv data file
         clf: classifier
         categorize: set to True if Age and Fare should be categorized
     """
 
-    data = pd.read_csv(data_file + processed_suffix + "_" + str(categorize), sep = ';')
+    data = pd.read_csv(data_dir + data_file + processed_suffix + "_" + str(categorize), sep = ';')
 
     target = data["Survived"]
     del(data["Survived"])
 
     # Load model from file:
-    model_unpickle = open("./data/" + clf.__class__.__name__ + ".pkl", 'rb')
+    model_unpickle = open(data_dir + clf.__class__.__name__ + ".pkl", 'rb')
     model = pkl.load(model_unpickle)
 
     # Predict data with loaded model:
