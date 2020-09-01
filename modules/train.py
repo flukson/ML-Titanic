@@ -5,17 +5,18 @@ import sklearn
 
 from common import processed_suffix, getAccuracy
 
-def execute(data_file, clf, categorize=False):
+def execute(data_dir, data_file, clf, categorize=False):
 
     """Performs model training
     Args:
-        data_file (str): path to input raw csv data file
+        data_dir (str): relative path to data subdirectory
+        data_file (str): name of csv data file
         clf: classifier
         categorize: set to True if Age and Fare should be categorized
     """
 
     # Split the data for training:
-    data = pd.read_csv(data_file + processed_suffix + "_" + str(categorize), sep = ';')
+    data = pd.read_csv(data_dir + data_file + processed_suffix + "_" + str(categorize), sep = ';')
 
     target = data["Survived"]
     del(data["Survived"])
@@ -32,7 +33,7 @@ def execute(data_file, clf, categorize=False):
     predictions = clf.predict(data[tr_col])
 
     # Save model to file:
-    model_pickle = open("./data/" + clf.__class__.__name__ + ".pkl", 'wb')
+    model_pickle = open(data_dir + clf.__class__.__name__ + ".pkl", 'wb')
     pkl.dump(clf, model_pickle)
     model_pickle.close()
 
