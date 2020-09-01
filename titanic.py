@@ -67,18 +67,18 @@ if __name__ == '__main__':
 
     sorted_results = sorted(results.items(), reverse=True, key=lambda x: x[1][1])
 
-    print "============================="
-    print "Age and Fare not categorized:"
-    print "============================="
+    print "================================"
+    print "A. Age and Fare not categorized:"
+    print "================================"
     for sr in sorted_results:
         print sr[0], str(sr[1][1])
     print
 
     sorted_results = sorted(results.items(), reverse=True, key=lambda x: x[1][3])
 
-    print "========================="
-    print "Age and Fare categorized:"
-    print "========================="
+    print "============================"
+    print "B. Age and Fare categorized:"
+    print "============================"
     for sr in sorted_results:
         print sr[0], str(sr[1][3])
     print
