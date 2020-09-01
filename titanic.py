@@ -45,7 +45,7 @@ if __name__ == '__main__':
         try:
             classifier_name = classifier.__class__.__name__
 
-            #print "Classifier: " + classifier_name
+            print "Start calculations for " + classifier_name + " classifier."
 
             # Age and Fare not categorized:
 
@@ -67,11 +67,15 @@ if __name__ == '__main__':
             build_features.execute(data_dir, val_csv, categorize=True)
             accuracy_val_c = predict.execute(data_dir, val_csv, classifier, categorize=True)
 
+            print "Stop calculations for " + classifier_name + " classifier."
+
             results[classifier_name] = [accuracy_train, accuracy_val, accuracy_train_c, accuracy_val_c]
 
         except:
 
             ""
+
+    print
 
     sorted_results = sorted(results.items(), reverse=True, key=lambda x: x[1][1])
 
